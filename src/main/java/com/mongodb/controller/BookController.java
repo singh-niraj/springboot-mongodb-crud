@@ -3,7 +3,7 @@ package com.mongodb.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,29 +16,29 @@ import com.mongodb.entity.Book;
 import com.mongodb.service.BookService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class BookController {
 
-	@Autowired
-	BookService bookService;
+	private final BookService bookService;
 
-	@PostMapping("/savebook")
+	@PostMapping("/book")
 	public String saveBook(@RequestBody Book book) {
-		bookService.saveBook(book);
-		return "Book saved successfully with id: " + book.getBookId();
+		var savesBook = bookService.saveBook(book);
+		return "Book saved successfully with id: " + savesBook.getBookId();
 	}
 
-	@GetMapping("/getallbook")
+	@GetMapping("/books")
 	public List<Book> getAllBook() {
 		return bookService.getAllBook();
 	}
 
-	@GetMapping("/getbookbyid/{id}")
+	@GetMapping("/book/{id}")
 	public Optional<Book> getBookWithId(@PathVariable int id) {
 		return bookService.findBookById(id);
 	}
 
-	@DeleteMapping("/deletebookbyid/{id}")
+	@DeleteMapping("/book/{id}")
 	public String deleteBook(@PathVariable int id) {
 		bookService.deleteBook(id);
 		return "book deleted successfully wit id :" + id;
