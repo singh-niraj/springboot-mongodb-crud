@@ -3,17 +3,17 @@ package com.mongodb.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.entity.Book;
 import com.mongodb.repository.BookRepository;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
-	
-	@Autowired
-	private BookRepository bookRepository;
+
+	private final BookRepository bookRepository;
 	
 	public Book saveBook(Book book) {
 	  return bookRepository.save(book);
@@ -30,6 +30,6 @@ public class BookService {
 	
 	public void deleteBook(int id) {
 		bookRepository.deleteById(id);
-		
 	}
+
 }
